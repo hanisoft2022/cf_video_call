@@ -14,27 +14,19 @@ class SHome extends StatefulWidget {
 }
 
 class _SHomeState extends State<SHome> {
-  _onEnterButtonPressed() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => const SCam(),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue[100],
-      body: SizedBox(
+      body: const SizedBox(
         width: double.infinity,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Expanded(child: WLogo()),
-            const Gap(30),
-            const Expanded(child: WImage()),
-            Expanded(child: WEnterButton(onEnterButtonPressed: _onEnterButtonPressed)),
+            Expanded(child: WLogo()),
+            Gap(30),
+            Expanded(child: WImage()),
+            Expanded(child: WEnterButton()),
           ],
         ),
       ),

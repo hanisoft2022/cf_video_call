@@ -1,7 +1,8 @@
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:video_call/const/agora_config.dart';
+import 'package:video_call/common/const/agora_config.dart';
 
 class SCam extends StatefulWidget {
   const SCam({super.key});
@@ -33,14 +34,12 @@ class SCamState extends State<SCam> {
 
   // 커스텀 메서드
   Future<void> initAgora() async {
-    final Map<Permission, PermissionStatus> permissionStatus =
-        await [Permission.microphone, Permission.camera].request();
+    final Map<Permission, PermissionStatus> permissionStatus = await [Permission.microphone, Permission.camera].request();
 
     final cameraPermission = permissionStatus[Permission.camera];
     final microphonePermission = permissionStatus[Permission.microphone];
 
-    if (cameraPermission != PermissionStatus.granted ||
-        microphonePermission != PermissionStatus.granted) {
+    if (cameraPermission != PermissionStatus.granted || microphonePermission != PermissionStatus.granted) {
       return Future.error('카메라 또는 마이크 권한이 없습니다.');
     }
 
@@ -72,8 +71,7 @@ class SCamState extends State<SCam> {
               () => _remoteUid = remoteUid,
             );
           },
-          onUserOffline: (RtcConnection connection, int remoteUid,
-              UserOfflineReasonType reason) {
+          onUserOffline: (RtcConnection connection, int remoteUid, UserOfflineReasonType reason) {
             print("remote user $remoteUid left channel");
             setState(
               () {
@@ -131,65 +129,34 @@ class SCamState extends State<SCam> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.blue[100],
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        title: const Text('LIVE'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(backgroundColor: Colors.transparent, title: const Text('LIVE'), centerTitle: true),
       body: FutureBuilder<void>(
         future: _initAgora,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
-              child: CircularProgressIndicator(
-                color: Colors.blue[200],
-              ),
-            );
+            return Center(child: CircularProgressIndicator(color: Colors.blue[200]));
           }
           if (snapshot.hasError) {
-            return Center(
-              child: Text(
-                snapshot.error.toString(),
-              ),
-            );
+            return Center(child: Text(snapshot.error.toString()));
           }
           return Stack(
             children: [
-              Center(
-                child: _remoteVideo(),
-              ),
+              Center(child: _remoteVideo()),
               Positioned(
                 top: 10,
                 left: 20,
                 child: Container(
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.blue[200]!,
-                        blurRadius: 10.0,
-                        spreadRadius: 2.0,
-                      ),
-                    ],
+                    boxShadow: [BoxShadow(color: Colors.blue[200]!, blurRadius: 10.0, spreadRadius: 2.0)],
                     color: Colors.white,
                   ),
                   width: 100,
                   height: 150,
                   child: Center(
                     child: _localUserJoined
-                        ? AgoraVideoView(
-                            controller: VideoViewController(
-                              rtcEngine: _engine!,
-                              canvas: VideoCanvas(uid: _uid),
-                            ),
-                          )
-                        : SizedBox(
-                            width: 20,
-                            height: 20,
-                            child: CircularProgressIndicator(
-                              color: Colors.blue[200],
-                            ),
-                          ),
+                        ? AgoraVideoView(controller: VideoViewController(rtcEngine: _engine!, canvas: VideoCanvas(uid: _uid)))
+                        : SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.blue[200])),
                   ),
                 ),
               ),
@@ -198,13 +165,8 @@ class SCamState extends State<SCam> {
                 left: 10,
                 right: 10,
                 child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text(
-                    '나가기',
-                    style: TextStyle(color: Colors.blue[800]),
-                  ),
+                  onPressed: () => context.pop(),
+                  child: Text('나가기', style: TextStyle(color: Colors.blue[800])),
                 ),
               ),
             ],
