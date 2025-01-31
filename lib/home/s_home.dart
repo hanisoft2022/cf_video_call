@@ -31,21 +31,10 @@ class _SHomeState extends State<SHome> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // 1) 로고
-            const Expanded(
-              child: WLogo(),
-            ),
+            const Expanded(child: WLogo()),
             const Gap(30),
-            // 2) 이미지
-            const Expanded(
-              child: WImage(),
-            ),
-            // 3) 버튼
-            Expanded(
-              child: WEnterButton(
-                onEnterButtonPressed: _onEnterButtonPressed,
-              ),
-            ),
+            const Expanded(child: WImage()),
+            Expanded(child: WEnterButton(onEnterButtonPressed: _onEnterButtonPressed)),
           ],
         ),
       ),
