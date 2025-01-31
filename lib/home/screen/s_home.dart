@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:gap/gap.dart';
-import 'package:video_call/camera/s_cam.dart';
+
 import 'package:video_call/home/widget/w_enter_button.dart';
 import 'package:video_call/home/widget/w_image.dart';
 import 'package:video_call/home/widget/w_logo.dart';
