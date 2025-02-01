@@ -33,7 +33,7 @@ class AgoraState {
   }
 }
 
-final agoraProvider = StateNotifierProvider<AgoraController, AgoraState>((ref) => AgoraController());
+final agoraProvider = StateNotifierProvider.autoDispose<AgoraController, AgoraState>((ref) => AgoraController());
 
 class AgoraController extends StateNotifier<AgoraState> {
   AgoraController() : super(AgoraState());
@@ -98,6 +98,8 @@ class AgoraController extends StateNotifier<AgoraState> {
 
   Future<void> disposeAgora() async {
     await state.engine?.leaveChannel();
+    await state.engine?.stopPreview();
     await state.engine?.release();
+    state = AgoraState();
   }
 }
