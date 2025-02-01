@@ -1,5 +1,5 @@
 import 'package:go_router/go_router.dart';
-import 'package:video_call/camera/s_cam.dart';
+import 'package:video_call/camera/screen/s_cam.dart';
 import 'package:video_call/home/screen/s_home.dart';
 
 final router = GoRouter(
